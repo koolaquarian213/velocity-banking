@@ -3,10 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <title>Velocity Banking Calculator</title>
+    <script src="calculator.js" defer></script>
 </head>
 <body>
     <h1>Velocity Banking Calculator</h1>
-    <!-- Form to collect financial data -->
-    <script src="calculator.js"></script>
+    <form id="velocityBankingForm">
+        <fieldset>
+            <legend>Income and Expenses</legend>
+            <label for="monthlyIncome">Monthly Income:</label>
+            <input type="number" id="monthlyIncome" name="monthlyIncome" required><br><br>
+
+            <label for="expenses">Total Monthly Expenses:</label>
+            <input type="number" id="expenses" name="expenses" required><br><br>
+        </fieldset>
+
+        <fieldset id="debtsFieldset">
+            <legend>Debts</legend>
+            <!-- Placeholder for debt inputs -->
+        </fieldset>
+
+        <button type="button" onclick="addDebtInput()">Add Debt</button><br><br>
+
+        <fieldset>
+            <legend>Line of Credit (LOC) Details</legend>
+            <label for="locBalance">LOC Balance:</label>
+            <input type="number" id="locBalance" name="locBalance" required><br><br>
+
+            <label for="locLimit">LOC Limit:</label>
+            <input type="number" id="locLimit" name="locLimit" required><br><br>
+
+            <label for="locInterestRate">LOC Annual Interest Rate (%):</label>
+            <input type="number" id="locInterestRate" name="locInterestRate" step="0.01" required><br><br>
+        </fieldset>
+
+        <input type="submit" value="Calculate Projections">
+    </form>
+
+    <div id="results"></div>
+
+    <script>
+        document.getElementById('velocityBankingForm').onsubmit = function(event) {
+            event.preventDefault();
+            calculateProjections();
+        };
+
+        function addDebtInput() {
+            const container = document.getElementById('debtsFieldset');
+            const index = container.childElementCount / 4; // Adjust based on the number of inputs per debt
+
+            container.innerHTML += `
+                <div>
+                    <label for="debtBalance${index}">Debt ${index + 1} Balance:</label>
+                    <input type="number" id="debtBalance${index}" name="debtBalance[]" required><br><br>
+
+                    <label for="debtInterestRate${index}">Debt ${index + 1} Annual Interest Rate (%):</label>
+                    <input type="number" id="debtInterestRate${index}" name="debtInterestRate[]" step="0.01" required><br><br>
+
+                    <label for="debtMinPayment${index}">Debt ${index + 1} Minimum Payment:</label>
+                    <input type="number" id="debtMinPayment${index}" name="debtMinPayment[]" required><br><br>
+                </div>
+            `;
+        }
+    </script>
 </body>
 </html>
